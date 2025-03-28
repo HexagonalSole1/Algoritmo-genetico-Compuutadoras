@@ -21,18 +21,8 @@ import seaborn as sns
 # Import the algorithm and models
 from algorithm import ComputerGenerator
 from models import Computer, UserPreferences
-# En gui.py
 from algorithm.utils.custom_data_manager import CustomDataManager
 
-class ComputerGeneratorGUI:
-    def __init__(self, master):
-        """Initialize the GUI"""
-        self.master = master
-        
-        # Usar CustomDataManager en lugar de DataManager
-        self.data_manager = CustomDataManager()
-        
-        # El resto del código se mantiene igual...
 
 class ComputerGeneratorGUI:
     """
@@ -2160,101 +2150,69 @@ class ComputerGeneratorGUI:
         self.brand_filter_list.configure(values=brands_list)
         self.brand_filter_var.set("All")
     
-    def get_component_browser_data(self, component_type: str) -> List[Dict[str, str]]:
-        """
-        Obtiene datos de componentes para el navegador de componentes
-        desde el puente de datos.
-        
-        Args:
-            component_type (str): Tipo de componente a buscar
-        
-        Returns:
-            List[Dict[str, str]]: Lista de componentes con formato para el navegador
-        """
-        # Importar datos desde el puente de datos
-        from data_bridge import cpus, gpus, rams, storages, motherboards, psus, cooling, case
-        
-        # Mapeo de tipos de componentes a sus listas correspondientes
-        component_map = {
-            'cpu': cpus,
-            'gpu': gpus,
-            'ram': rams,
-            'storage': storages,
-            'motherboard': motherboards,
-            'psu': psus,
-            'cooling': cooling,
-            'case': case
+    def get_component_browser_data(self, component_type):
+        """Get component data for the browser"""
+        # This would normally come from your data manager
+        # For now, return some dummy data based on the component type
+        dummy_data = {
+            'cpu': [
+                {"name": "Intel Core i9-14900K", "details": "24 cores, 5.6GHz", "performance": "95/100", "price": "$599.99"},
+                {"name": "AMD Ryzen 9 7950X", "details": "16 cores, 5.7GHz", "performance": "93/100", "price": "$549.99"},
+                {"name": "Intel Core i7-14700K", "details": "20 cores, 5.5GHz", "performance": "87/100", "price": "$419.99"},
+                {"name": "AMD Ryzen 7 7800X3D", "details": "8 cores, 5.0GHz", "performance": "85/100", "price": "$399.99"},
+                {"name": "Intel Core i5-14600K", "details": "14 cores, 5.3GHz", "performance": "80/100", "price": "$319.99"}
+            ],
+            'gpu': [
+                {"name": "NVIDIA RTX 4090", "details": "24GB GDDR6X", "performance": "100/100", "price": "$1599.99"},
+                {"name": "AMD Radeon RX 7900 XTX", "details": "24GB GDDR6", "performance": "90/100", "price": "$999.99"},
+                {"name": "NVIDIA RTX 4080 Super", "details": "16GB GDDR6X", "performance": "85/100", "price": "$999.99"},
+                {"name": "AMD Radeon RX 7800 XT", "details": "16GB GDDR6", "performance": "75/100", "price": "$499.99"},
+                {"name": "NVIDIA RTX 4070 Ti Super", "details": "16GB GDDR6X", "performance": "78/100", "price": "$799.99"}
+            ],
+            'ram': [
+                {"name": "G.Skill Trident Z5 RGB", "details": "32GB DDR5-6000", "performance": "95/100", "price": "$229.99"},
+                {"name": "Corsair Vengeance", "details": "32GB DDR5-5600", "performance": "90/100", "price": "$189.99"},
+                {"name": "Kingston Fury Beast", "details": "32GB DDR4-3600", "performance": "75/100", "price": "$129.99"},
+                {"name": "Crucial Ballistix", "details": "16GB DDR4-3200", "performance": "60/100", "price": "$79.99"}
+            ],
+            'storage': [
+                {"name": "Samsung 990 Pro", "details": "2TB NVMe SSD", "performance": "95/100", "price": "$229.99"},
+                {"name": "WD Black SN850X", "details": "1TB NVMe SSD", "performance": "92/100", "price": "$149.99"},
+                {"name": "Crucial T700", "details": "2TB NVMe SSD", "performance": "90/100", "price": "$199.99"},
+                {"name": "Samsung 870 EVO", "details": "1TB SATA SSD", "performance": "70/100", "price": "$89.99"},
+                {"name": "Seagate Barracuda", "details": "2TB 7200RPM HDD", "performance": "40/100", "price": "$54.99"}
+            ],
+            'motherboard': [
+                {"name": "ASUS ROG Maximus Z790 Hero", "details": "Intel Z790, DDR5", "performance": "95/100", "price": "$629.99"},
+                {"name": "Gigabyte X670E Aorus Master", "details": "AMD X670E, DDR5", "performance": "93/100", "price": "$499.99"},
+                {"name": "MSI MPG Z790 Carbon WiFi", "details": "Intel Z790, DDR5", "performance": "90/100", "price": "$399.99"},
+                {"name": "ASRock B650E Steel Legend", "details": "AMD B650E, DDR5", "performance": "85/100", "price": "$249.99"},
+                {"name": "ASUS TUF Gaming B760M-PLUS", "details": "Intel B760, DDR5", "performance": "80/100", "price": "$179.99"}
+            ],
+            'psu': [
+                {"name": "Corsair RM850x", "details": "850W, 80+ Gold", "performance": "90/100", "price": "$139.99"},
+                {"name": "Seasonic Prime TX-1000", "details": "1000W, 80+ Titanium", "performance": "95/100", "price": "$279.99"},
+                {"name": "EVGA SuperNOVA 750 G5", "details": "750W, 80+ Gold", "performance": "88/100", "price": "$119.99"},
+                {"name": "be quiet! Dark Power Pro 12", "details": "1500W, 80+ Titanium", "performance": "98/100", "price": "$449.99"},
+                {"name": "Thermaltake Toughpower GF3", "details": "850W, 80+ Gold", "performance": "87/100", "price": "$129.99"}
+            ],
+            'cooling': [
+                {"name": "Noctua NH-D15", "details": "Air Cooler, Dual Fan", "performance": "90/100", "price": "$99.99"},
+                {"name": "ARCTIC Liquid Freezer II 360", "details": "360mm AIO", "performance": "95/100", "price": "$129.99"},
+                {"name": "Corsair iCUE H150i Elite", "details": "360mm AIO, RGB", "performance": "93/100", "price": "$169.99"},
+                {"name": "be quiet! Dark Rock Pro 4", "details": "Air Cooler", "performance": "88/100", "price": "$89.99"},
+                {"name": "Lian Li Galahad 240", "details": "240mm AIO, RGB", "performance": "85/100", "price": "$109.99"}
+            ],
+            'case': [
+                {"name": "Lian Li O11 Dynamic EVO", "details": "Mid Tower, Tempered Glass", "performance": "95/100", "price": "$179.99"},
+                {"name": "Corsair 5000D Airflow", "details": "Mid Tower, Mesh", "performance": "93/100", "price": "$149.99"},
+                {"name": "Fractal Design Meshify 2", "details": "Mid Tower, Mesh", "performance": "90/100", "price": "$159.99"},
+                {"name": "NZXT H510 Flow", "details": "Mid Tower, Mesh", "performance": "85/100", "price": "$89.99"},
+                {"name": "Phanteks Eclipse P500A", "details": "Mid Tower, Mesh", "performance": "92/100", "price": "$139.99"}
+            ]
         }
         
-        # Obtener la lista de componentes
-        components = component_map.get(component_type.lower(), [])
-        
-        # Convertir componentes a formato de navegador
-        browser_data = []
-        for component in components:
-            try:
-                # Convertir cada componente a un diccionario con formato específico
-                if component_type == 'cpu':
-                    browser_data.append({
-                        "name": f"{component.maker} {component.model}",
-                        "details": f"{component.cores} cores, {component.base_clock}-{component.boost_clock}GHz",
-                        "performance": f"{component.performance}/100",
-                        "price": f"${component.price:.2f}"
-                    })
-                elif component_type == 'gpu':
-                    browser_data.append({
-                        "name": f"{component.maker}",
-                        "details": f"{component.vram}GB {component.vram_type}",
-                        "performance": f"{component.power}/100",
-                        "price": f"${component.price:.2f}"
-                    })
-                elif component_type == 'ram':
-                    browser_data.append({
-                        "name": f"{component.maker} {component.model}",
-                        "details": f"{component.capacity}GB {component.type}-{component.frequency}MHz",
-                        "performance": f"{min(100, component.capacity/8 * 20 + component.frequency/1000 * 20)}/100",
-                        "price": f"${component.price:.2f}"
-                    })
-                elif component_type == 'storage':
-                    browser_data.append({
-                        "name": f"{component.maker} {component.model}",
-                        "details": f"{component.capacity}{'TB' if component.capacity > 1000 else 'GB'} {component.type}",
-                        "performance": f"{min(100, component.capacity/500 * 40 + (50 if component.type == 'SSD' else 10))}/100",
-                        "price": f"${component.price:.2f}"
-                    })
-                elif component_type == 'motherboard':
-                    browser_data.append({
-                        "name": f"{component.maker} {component.model}",
-                        "details": f"{component.form_factor}, {component.ram_socket_type}",
-                        "performance": f"{min(100, component.price/1000 * 40)}/100",
-                        "price": f"${component.price:.2f}"
-                    })
-                elif component_type == 'psu':
-                    browser_data.append({
-                        "name": f"{component.maker} {component.model}",
-                        "details": f"{component.capacity}W, {component.efficiency}",
-                        "performance": f"{min(100, component.capacity/100 * 20)}/100",
-                        "price": f"${component.price:.2f}"
-                    })
-                elif component_type == 'cooling':
-                    browser_data.append({
-                        "name": f"{component.maker} {component.model}",
-                        "details": f"{component.type}, {component.fan_count}x{component.fan_size}mm",
-                        "performance": f"{min(100, component.cooling_capacity/100 * 40)}/100",
-                        "price": f"${component.price:.2f}"
-                    })
-                elif component_type == 'case':
-                    browser_data.append({
-                        "name": f"{component.maker} {component.model}",
-                        "details": f"{'/'.join(component.form_factors)}, {component.side_panel} Panel",
-                        "performance": f"{min(100, component.price/500 * 40)}/100",
-                        "price": f"${component.price:.2f}"
-                    })
-            except Exception as e:
-                # Agregar manejo de errores para componentes con estructura diferente
-                print.warning(f"Error procesando componente de tipo {component_type}: {e}")
-        
-        return browser_data
+        return dummy_data.get(component_type, [])
     
     def search_components(self):
         """Search for components matching the search term"""
